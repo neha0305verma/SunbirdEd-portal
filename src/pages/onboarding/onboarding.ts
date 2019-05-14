@@ -168,7 +168,9 @@ export class OnboardingPage {
       .then((res) => {
           this.preferences.putString(PreferenceKey.APP_LOGO, res.logo).toPromise().then();
           this.preferences.putString(PreferenceKey.APP_NAME, that.orgName).toPromise().then();
-          (<any>window).splashscreen.setContent(that.orgName, res.logo);
+          /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+         //(<any>window).splashscreen.setContent(that.orgName, res.logo);
+         /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
           resolve();
         }).catch(() => {
         resolve(); // ignore

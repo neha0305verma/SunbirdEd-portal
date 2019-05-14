@@ -31,7 +31,11 @@ const COURSE_TAB = {
     root: CoursesPage,
     icon: 'courses',
     label: 'COURSES_BNAV',
-    index: 2,
+    /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+    // index: 2,
+    index: 1,
+    isSelected:true,
+    /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
     tabsHideOnSubPages: true
 };
 
@@ -55,9 +59,12 @@ const LIBRARY_TAB = {
     root: ResourcesPage,
     icon: 'resources',
     label: 'LIBRARY_BNAV',
-    index: 1,
+    /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+    // index:1,
+    index: 2,
     tabsHideOnSubPages: true,
-    isSelected: true
+    //isSelected: true
+    /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
 };
 const GUEST_PROFILE_TAB = {
     root: GuestProfilePage,

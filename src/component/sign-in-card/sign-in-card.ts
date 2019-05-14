@@ -186,7 +186,9 @@ export class SignInCardComponent {
         .then((res) => {
           this.preferences.putString(PreferenceKey.APP_LOGO, res.logo).toPromise().then();
           this.preferences.putString(PreferenceKey.APP_NAME, title).toPromise().then();
-          (<any>window).splashscreen.setContent(title, res.logo);
+          /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+         // (<any>window).splashscreen.setContent(title, res.logo);
+         /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
           resolve();
         }).catch(() => {
           resolve(); // ignore

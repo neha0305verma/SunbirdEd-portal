@@ -83,3 +83,95 @@ page-enrolled-course-details {
         }
       }
 }
+
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+.my-structure-section{
+    background-color: #eeeef4;
+}
+.my-structure-section > h6{
+    margin-bottom: 0rem;
+}
+.my-background-gray {
+    padding: 10px 20px 20px 25px !important;
+    margin: 0 -26px;
+    background: #efeff4;
+}
+.my-background-gray ul {
+    list-style-type: none;
+}
+.my-background-gray > * ul{
+    margin: 10px 0px 10px 10px;
+}
+.my-content-structure {
+    padding-top: 0px !important;
+    background-color: #eeeef4;
+    padding-left: 15px;
+    color: #808080;
+    font-size: 1.2rem;
+    margin: 0 -18px;
+}
+ul.fancytree-container{
+    border:none;
+    white-space: normal;
+    background-color: #eeeef4;
+    padding: 0 !important;
+    margin: -15px;
+}
+ul.fancytree-container li{
+    transition: 0.3s;
+    list-style-type: none;
+    margin: 15px;
+}
+.fancytree-custom-icon{
+  float: right;  
+  padding-right: 10px;
+}
+//.course-unit-box{eeeef4
+.fancytree-container > li{
+    word-break: break-all;
+    word-wrap: break-word;
+    border-radius: 5px;
+    border: 1px solid #BEBEBE;
+    box-shadow: 5px 10px 18px #E8E8E8;
+    // margin-top: 30px !important;
+    // margin-bottom: 30px !important;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    // padding-right: 10px;
+    // padding-left: 20px;
+    background-color: #fff !important;
+    font-size: 15.5px;
+    
+
+}
+span.fancytree-title{
+    padding: 0px 3px 0px 3px !important;
+    display: inherit;
+    margin-left: 14px;
+}
+.fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-active:hover span.fancytree-title{
+    background-color: #fff !important; 
+}
+.fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-active span.fancytree-title {
+     background-color: #fff !important; 
+     border-color: #fff !important; 
+}
+.fancytree-plain.fancytree-container span.fancytree-node.fancytree-active span.fancytree-title {
+     background-color: #fff !important;
+     color: #000 !important; 
+}
+.fancytree-plain.fancytree-container span.fancytree-node {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+span.fancytree-empty, span.fancytree-vline, span.fancytree-expander, span.fancytree-icon, span.fancytree-checkbox, span.fancytree-drag-helper-img, #fancytree-drop-marker {
+    display: none;
+}
+span.fancytree-empty, span.fancytree-vline, span.fancytree-expander, span.fancytree-icon, span.fancytree-checkbox, span.fancytree-drag-helper-img, #fancytree-drop-marker {
+    display: none;
+}
+.fancytree-plain.fancytree-container span.fancytree-title:hover {
+    background-color: #fff;
+}
+
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/

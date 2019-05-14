@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { ProfileSettingsPage } from './../pages/profile-settings/profile-settings';
 import { AfterViewInit, Component, Inject, NgZone, ViewChild, OnInit, EventEmitter } from '@angular/core';
-import { App, Events, Nav, Platform, PopoverController, ToastController, ViewController, NavControllerBase } from 'ionic-angular';
+import { App, Events, Nav, Platform, PopoverController, ToastController, ViewController, NavControllerBase, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { GUEST_STUDENT_TABS, GUEST_TEACHER_TABS, initTabs, LOGIN_TEACHER_TABS } from './module.service';
 import { LanguageSettingsPage } from '../pages/language-settings/language-settings';
@@ -48,7 +48,9 @@ import { CoursesPage } from '@app/pages/courses/courses';
 import { ProfilePage } from '@app/pages/profile/profile';
 import { CollectionDetailsEtbPage } from '@app/pages/collection-details-etb/collection-details-etb';
 import { QrCodeResultPage } from '@app/pages/qr-code-result';
-
+/* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
+import { FCM } from '@ionic-native/fcm';
+/* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
 @Component({
   templateUrl: 'app.html',
   providers: [
@@ -104,7 +106,11 @@ export class MyApp implements OnInit, AfterViewInit {
     private splashscreenImportActionHandlerDelegate: SplashscreenImportActionHandlerDelegate,
     private headerServie: AppHeaderService,
     private logoutHandlerService: LogoutHandlerService,
-    private network: Network
+    private network: Network,
+    /* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
+    private fcm : FCM,
+    private alertController : AlertController
+    /* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
   ) {
     this.telemetryAutoSyncUtil = new TelemetryAutoSyncUtil(this.telemetryService);
     platform.ready().then(async () => {
@@ -133,6 +139,30 @@ export class MyApp implements OnInit, AfterViewInit {
       this.statusBar.styleBlackTranslucent();
       this.handleBackButton();
     });
+    /* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
+    this.fcm.getToken().then((token) => {
+      console.log('token is : ',token);
+    }).catch((err) => {
+      console.log('error is',err)
+    });    this.fcm.onTokenRefresh().subscribe(token => {
+      console.log('refreshed token : ',token);
+    },(err) => {
+      console.log('error on subscriptoin',err);
+    });    this.fcm.onNotification().subscribe(data => {
+      console.log(data);
+      if (data.wasTapped) {
+        console.log(data,'Received in background');
+      } else {
+        console.log(data,'Received in foreground');
+        const alert = this.alertController.create({
+          title: data.title,
+          message: data.body,
+          buttons: ['ok']
+        });
+       // alert.present();
+      }
+    },error => {console.log('error from notification ',error)});
+    /* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
   }
 
   /**
@@ -580,7 +610,7 @@ export class MyApp implements OnInit, AfterViewInit {
 
   private async handleSunbirdSplashScreenActions(): Promise<undefined> {
     const stringifiedActions = await new Promise<string>((resolve) => {
-      splashscreen.getActions((actionsTobeDone) => {
+      (<any>window).splashscreen.getActions((actionsTobeDone) => {
         resolve(actionsTobeDone);
       });
     });
@@ -602,8 +632,8 @@ export class MyApp implements OnInit, AfterViewInit {
       }
     }
 
-    splashscreen.markImportDone();
-    splashscreen.hide();
+    (<any>window).splashscreen.markImportDone();
+    (<any>window).splashscreen.hide();
   }
 
   private autoSyncTelemetry() {

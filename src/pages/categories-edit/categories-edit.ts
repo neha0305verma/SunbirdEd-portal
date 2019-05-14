@@ -43,7 +43,9 @@ export class CategoriesEditPage {
   subjectList = [];
   gradeList = [];
   mediumList = [];
-
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+  blist = []; //added blist variable for board aka target audience
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
   profile: Profile;
   profileEditForm: FormGroup;
   frameworkId: string;
@@ -108,6 +110,9 @@ export class CategoriesEditPage {
    * Ionic life cycle event - Fires every time page visits
    */
   ionViewWillEnter() {
+    /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+    this.resetForm(0);//resets the form on visiting the page 
+    /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
     this.getSyllabusDetails();
     this.headerConfig = this.headerService.getDefaultPageConfig();
     this.headerConfig.actionButtons = [];
@@ -233,6 +238,11 @@ export class CategoriesEditPage {
         };
         this.frameworkService.getFrameworkDetails(frameworkDetailsRequest).toPromise()
           .then((framework: Framework) => {
+            /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+            this.blist = framework.categories[1].terms; //terms for board aka target audience
+            this.mediumList = framework.categories[2].terms; //terms for medium
+            this.subjectList =  framework.categories[3].terms; //terms for subjects
+            /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
             this.categories = framework.categories;
             // loader.dismiss();
             const request: GetFrameworkCategoryTermsRequest = {
@@ -367,7 +377,9 @@ export class CategoriesEditPage {
     }
     if (formVal.boards) {
       const code = typeof (formVal.boards) === 'string' ? formVal.boards : formVal.boards[0];
-      req.framework['board'] = [this.boardList.find(board => code === board.code).name];
+      /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+      req.framework['board'] = [this.blist.find(board => code === board.code).name];//boardList changed to blist
+      /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
     }
     if (formVal.medium && formVal.medium.length) {
       const Names = [];
@@ -379,7 +391,9 @@ export class CategoriesEditPage {
     if (formVal.grades && formVal.grades.length) {
       const Names = [];
       formVal.grades.forEach(element => {
-        Names.push(this.gradeList.find(grade => element === grade.code).name);
+        /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+        Names.push(this.boardList.find(grade => element === grade.code).name);//gradeList changed to boardList 
+        /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
       });
       req.framework['gradeLevel'] = Names;
     }

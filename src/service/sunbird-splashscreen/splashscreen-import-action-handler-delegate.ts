@@ -42,7 +42,7 @@ export class SplashscreenImportActionHandlerDelegate implements SplashscreenActi
                   .filter(e => e.type === ContentEventType.IMPORT_COMPLETED)
               );
           }).do((event: ContentImportProgress) => {
-            splashscreen.setImportProgress(event.payload.currentCount, event.payload.totalCount);
+            (<any>window).splashscreen.setImportProgress(event.payload.currentCount, event.payload.totalCount);
           }).mapTo(undefined) as any;
       }
       case 'epar': {
@@ -77,7 +77,7 @@ export class SplashscreenImportActionHandlerDelegate implements SplashscreenActi
   async invokeImportEcar(filePath: string): Promise<void> {
     return this.contentService.importEcar({
       isChildContent: false,
-      destinationFolder: cordova.file.externalDataDirectory,
+      destinationFolder: (<any>window).cordova.file.externalDataDirectory,
       sourceFilePath: filePath,
       correlationData: []
     }).toPromise().then((response: ContentImportResponse[]) => {

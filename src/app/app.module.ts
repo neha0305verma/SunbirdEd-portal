@@ -33,7 +33,9 @@ import { AndroidPermissionsService } from '@app/service/android-permissions/andr
 import { ComponentsModule } from '@app/component/components.module';
 import { ContainerService } from '@app/service/container.services';
 import { DirectivesModule } from '@app/directives/directives.module';
-
+/* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
+import { FCM } from '@ionic-native/fcm';
+/* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
 export const translateHttpLoaderFactory = (httpClient: HttpClient) => {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 };
@@ -172,7 +174,7 @@ export const sunbirdSdkFactory =
   () => {
     return async () => {
       const buildConfigValues = JSON.parse(await new Promise<string>((resolve, reject) => {
-        buildconfigreader.getBuildConfigValues('org.sunbird.app', (v) => {
+        (<any>window).buildconfigreader.getBuildConfigValues('org.sunbird.app', (v) => {
           resolve(v);
         }, (err) => {
           reject(err);
@@ -330,6 +332,9 @@ export const sunbirdSdkFactory =
     AppHeaderService,
     Device,
     AndroidPermissionsService,
+  /* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
+    FCM,
+  /* Sunbird-Implementation-Team-Gurgaon-NehaVerma */
     ...sunbirdSdkServicesProvidersFactory(),
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     { provide: APP_INITIALIZER, useFactory: sunbirdSdkFactory, deps: [], multi: true }

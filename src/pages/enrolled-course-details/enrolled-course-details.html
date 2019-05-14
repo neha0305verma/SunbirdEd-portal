@@ -46,7 +46,9 @@
 		</ion-grid>
 		<br />
 		<div class="about-section" *ngIf="course?.description || course?.gradeLevel || course?.subject || course?.board">
-			<h6 class="padding-10 background-gray font-size-20">{{ 'ABOUT' | translate }}</h6>
+			<!-- Sunbird-Implementation-Team-Gurgaon-NehaVerma -->
+			<h6 class="padding-10 background-gray font-size-20">{{ 'OVERVIEW' | translate }}</h6>
+			<!-- Sunbird-Implementation-Team-Gurgaon-NehaVerma -->
 			<p *ngIf="!showMoreFlag" class="text-gray-color">
 				{{ (course && course.description && course.description.length > 100) ? (course?.description | slice:0:100) + '...' : (course?.description)
 				}} </p>
@@ -54,12 +56,12 @@
 				<p *ngIf="course?.description?.length" class="text-gray-color">
 					{{ course?.description }}
 				</p>
-				<div *ngIf="course?.gradeLevel?.length" margin-top>
-					<div class="content-meta-title" text-uppercase>{{ 'CLASS' | translate }}</div>
+				<!-- <div *ngIf="course?.gradeLevel?.length" margin-top>
+					<div class="content-meta-title" text-uppercase>{{ 'CLASS' | translate }}</div> -->
 					<!-- <span *ngFor="let grade of course.gradeLevel"> -->
-					<span class="text-gray-color">{{course?.gradeLevel}}</span>
+					<!-- <span class="text-gray-color">{{course?.gradeLevel}}</span> -->
 					<!-- </span> -->
-				</div>
+				<!-- </div>
 				<div *ngIf="course?.subject" margin-top>
 					<div class="content-meta-title" text-uppercase>{{ 'SUBJECT' | translate }}</div>
 					<span class="text-gray-color">{{course?.subject | csa }}</span>
@@ -73,7 +75,53 @@
 				<div *ngIf="course?.medium" margin-top>
 					<div class="content-meta-title" text-uppercase>{{ 'MEDIUM' | translate }}</div>
 					<span class="text-gray-color">{{course?.medium | csa }}</span>
+				</div> -->
+
+				<!-- Sunbird-Implementation-Team-Gurgaon-NehaVerma -->
+				<div *ngIf="course?.board" margin-top>
+					<div class="content-meta-title" text-uppercase>{{ 'BOARD_CAMINO' | translate }}</div>
+					<span class="text-gray-color">{{course?.board}}</span>
 				</div>
+				<div *ngIf="course?.medium" margin-top>
+					<div class="content-meta-title" text-uppercase>{{ 'MEDIUM_CAMINO' | translate }}</div>
+					<span class="text-gray-color">{{course?.medium | csa }}</span>
+				</div>
+				<div *ngIf="course?.gradeLevel?.length" margin-top>
+					<div class="content-meta-title" text-uppercase>{{ 'CLASS_CAMINO' | translate }}</div>
+					<!-- <span *ngFor="let grade of course.gradeLevel"> -->
+					<span class="text-gray-color">{{course?.gradeLevel}}</span>
+					<!-- </span> -->
+				</div>
+				<div *ngIf="course?.subject" margin-top>
+					<div class="content-meta-title" text-uppercase>{{ 'SUBJECTS_CAMINO' | translate }}</div>
+					<span class="text-gray-color">{{course?.subject | csa }}</span>
+				</div>
+					<!--Changes according to Camino web 
+
+					CLASS-> CLASS_CAMINO, SUBJECT->SUBJECT_CAMINO, BOARD->BOARD_CAMINO, MEDIUM->MEDIUM_CAMINO 
+
+				ORDER CHANGE ==>BOARD,MEDIUM,CLASS,SUBJECT -->
+				<div *ngIf="course?.creator || course?.owner" margin-top>
+					<div class="content-meta-title" text-uppercase>Created By</div>
+					<span class="text-gray-color">{{ course?.creator || course?.owner }}</span>
+				</div>
+				<div *ngIf="courseCardData?.organisation" margin-top>
+						<div class="content-meta-title" text-uppercase>Organisation</div>
+						<span class="text-gray-color">{{ courseCardData?.organisation }}</span>
+					</div>
+					<br><br><br>
+				<div  *ngIf="course?.createdOn" class="text-gray-color">
+					<div>
+						<span>Created On : {{course?.createdOn | date: 'mediumDate'}}</span>
+					</div>
+				</div>
+				<div *ngIf="course?.lastPublishedOn" class="text-gray-color">
+						<div>
+							<span>Last Updated On : {{course?.lastPublishedOn | date: 'mediumDate'}}</span>
+						</div>
+					</div>
+					 <!--Changes according to Camino web -->
+					 <!-- Sunbird-Implementation-Team-Gurgaon-NehaVerma -->
 				<!-- Batch details - only for enrolled courses -->
 				<div *ngIf="batchDetails?.name" margin-top>
 					<div class="content-meta-title" style="color: black !important">{{ 'BATCH_DETAILS' | translate }}</div>
@@ -104,15 +152,16 @@
 		</div>
 		<br />
 
-		<div class="structure-section" margin-top>
-			<h6 class="padding-10 background-gray font-size-20">{{ 'STRUCTURE' | translate }}</h6>
-			<div padding-top *ngIf="course?.contentTypesCount" class="content-structure">
+		<!-- Sunbird-Implementation-Team-Gurgaon-NehaVerma -->
+		<div class="my-structure-section" margin-top>
+			<h6 class="padding-10 my-background-gray font-size-20">{{ 'STRUCTURE' | translate }}</h6>
+			<div padding-top *ngIf="course?.contentTypesCount" class="my-content-structure">
 				<span *ngFor="let structure of objectKeys(course?.contentTypesCount);let last = last;">
 					{{course.contentTypesCount[structure] + ' ' + structure}} {{last ? '' : ' |' }}
 				</span>
 			</div>
 			<!-- enrolledCourseMimeType === 'application/vnd.ekstep.content-collection' -->
-			<ion-list *ngIf="childrenData && childrenData.length" padding-top>
+			<!-- <ion-list *ngIf="childrenData && childrenData.length" padding-top>
 				<span *ngIf="courseCardData && enrolledCourseMimeType === 'application/vnd.ekstep.content-collection'">
 					<ion-item *ngFor="let item of childrenData; let i = index;" class="child-item" (click)="navigateToChildrenDetailsPage(item, depth + '.' + (i + 1))">
 						<ion-icon [name]="item.status? 'ios-checkmark-circle': (item.lastRead? 'ios-radio-button-on': 'ios-radio-button-off')"></ion-icon>
@@ -130,7 +179,9 @@
 							: (item?.contentData?.name)}}</span>
 					</ion-item>
 				</span>
-			</ion-list>
+			</ion-list> -->
+			<div id="tree" class="my-background-gray" #tree> </div>
+			<!-- Sunbird-Implementation-Team-Gurgaon-NehaVerma -->
 			<!-- Import content loader -->
 			<div *ngIf="showChildrenLoader">
 				<ion-row style="padding-top: 30px;" padding>
@@ -208,3 +259,8 @@
 		<button ion-button small (click)="cancelDownload()">{{ 'CANCEL' | translate }}</button>
 	</div>
 </ion-backdrop>
+
+
+
+
+

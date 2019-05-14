@@ -1,4 +1,4 @@
-import { Component, Inject, NgZone, ViewChild, OnInit } from '@angular/core';
+import { Component, Inject, NgZone, ViewChild, OnInit, EventEmitter, ElementRef } from '@angular/core';
 import { AlertController, Events, IonicPage, Navbar, NavController, NavParams, Platform, PopoverController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
@@ -67,7 +67,11 @@ import {
 import { ProfileConstants } from '../../app';
 import { SbGenericPopoverComponent } from '@app/component/popups/sb-generic-popup/sb-generic-popover';
 import { BatchConstants } from '@app/app';
-
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+import * as $ from 'jquery';
+import 'jquery.fancytree';
+import {IFancytreeOptions} from '../../interface/fancyTree'
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
 declare const cordova;
 
 
@@ -210,7 +214,81 @@ export class EnrolledCourseDetailsPage implements OnInit {
     this.checkLoggedInOrGuestUser();
     this.checkCurrentUserType();
   }
-
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+modifieddata: any;
+  @ViewChild('tree') public tree: ElementRef;
+  ionViewDidEnter() {
+    this.getdata().subscribe(modifieddata => this.modifieddata = modifieddata);
+    console.log("outside did enter if");
+    if(this.modifieddata) {
+      console.log("inside did enter if");
+      let options: IFancytreeOptions = {
+        clickFolderMode: 3,
+        source: this.modifieddata,
+        click: (event, data): boolean => {
+          const node = data.node;
+          console.log("node clicked",node);
+          this.itemSelect.emit(node);
+          if (node["icon"]=="glyphicon glyphicon-cloud-download") {
+            node["icon"] = "glyphicon glyphicon-cloud-upload";
+            node.renderTitle();
+        }else if (node["icon"]=="glyphicon glyphicon-cloud-upload") {
+          node["icon"] = "glyphicon glyphicon-cloud-download";
+            node.renderTitle();
+        }
+        if(node.data.contentType=="resource"){
+           this.navigateToChildrenDetailsPage(node.data.contentData,node.data.hierarchyInfo.length);
+          }
+          return true;
+        },
+       };
+       
+      // $(function(e) {
+      //   console.log("course-unit-box called");
+      //     $('.fancytree-node').parents('li').addClass('course-unit-box');
+      // });
+   
+       options = { ...options, ...this.options };
+       $(this.tree.nativeElement).fancytree(options);
+      
+       if (options.showConnectors) {
+         $('.fancytree-container').addClass('fancytree-connectors');
+       }
+      }
+  }
+  public itemSelect: EventEmitter<Fancytree.FancytreeNode> = new EventEmitter();
+  public options: IFancytreeOptions;
+  //observable for tree nodes
+  getdata(): Observable<any[]> {
+    return Observable.of(this.modifieddata);
+  }
+  //method to extract childrenData
+  changeMapDeep(array) {
+    if (!array || array.length == 0) return [];
+    array.concat(array.map(item2 => {
+      console.log("item2 ", item2);
+      // item2['extraClasses']='card';
+      if (item2.contentData) {
+        item2['title'] = item2.contentData.name; //delete item2.contentData;
+      }
+      if(item2['hierarchyInfo'].length==2){
+        item2['extraClasses']='top-parent';
+        item2['expanded'] = false;
+        item2['icon']='fa fa-cloud-download';
+      }else{
+        item2['expanded'] = true;
+      }
+      if (item2.children) {
+        item2['folder'] = true;
+        item2['children'] = item2.children;
+        this.changeMapDeep(item2.children)
+      }else{
+        item2['icon']='fa fa-play-circle-o';
+      };
+    }))
+    return array;
+  }
+/*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
   /**
    * Angular life cycle hooks
   */
@@ -854,6 +932,10 @@ export class EnrolledCourseDetailsPage implements OnInit {
           if (data && data.children) {
             this.enrolledCourseMimeType = data.mimeType;
             this.childrenData = data.children;
+             /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
+             this.modifieddata = this.changeMapDeep(this.childrenData);
+             this.ionViewDidEnter();
+             /*Sunbird-Implementation-Team-Gurgaon-NehaVerma*/
             this.startData = data.children;
             this.childContentsData = data;
             this.getContentState(!this.isNavigatingWithinCourse);
