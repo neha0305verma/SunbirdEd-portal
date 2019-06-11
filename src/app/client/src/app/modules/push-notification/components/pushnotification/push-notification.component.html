@@ -1,0 +1,161 @@
+<div class="push-notification">
+    <div class="row">
+        <!---------purple-bg--------->
+        <div class="col-12 purple-bg">
+            <!-----------page-header------>
+            <div class="top-header">
+                <div class="row">
+                    <div class="col-9">
+                        <h4 class="text-white course-name">{{courseName}}</h4>
+                        <h4 *ngIf="!courseName" class="cousename-gray"></h4>
+                    </div>
+                    <div class="col-3 view-selected">
+                        <button class="view-selected-btn text-white" (click)="viewselected()">View
+                            Selected<span *ngIf="counttotalSelectedStudent" class="count-total-selected-student">{{counttotalSelectedStudent}}</span></button>
+                    </div>
+                </div>
+            </div>
+            <!----------------batch-list----------->
+            <div *ngIf='batchData' class="batch-list">
+                <div class="row">
+                    <!-- <ngx-slick in-view-container (inview)="inview($event)" [trigger]="section.contents" (afterChange)="inviewChange(section.contents,$event)" (beforeChange)="checkSlide($event)" appTelemetryInteract [telemetryInteractEdata]="{id: btnArrow === undefined ? 'prev-button' : btnArrow , type: 'click', pageid: pageid, extra: { section: section.name}}" -->
+                    <div *ngFor="let batch of batchData; index as i" (click)="getStudentInfo(batch?.batchId,batch?.batchName,batch?.courseName,$event)">
+                        <ngx-slick slides-to-show=3 slides-to-scroll=3 class="carousel">
+                            <div ngxSlickItem class="batch-card slide">
+                                <div class="row">
+                                    <div class="col-6 round batch-round">
+                                        <input type="checkbox" id="checkbox-b{{i}}" class="checkbox-b" (click)="setBatchCheckbox($event,batch?.batchId,batch?.batchName,batch?.courseName)" [checked]="batch?.checkbox" />
+                                        <label for="checkbox-b{{i}}"></label>
+                                    </div>
+                                    <div class="col-6 selectedStudent">
+                                        {{batch?.selectedStudent}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="batch-id">
+                                        <h6>{{batch?.batchName}}</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="totalStudent"><i class="fa fa-users"></i>{{batch?.totalStudent}}</div>
+                                </div>
+                            </div>
+                        </ngx-slick>
+                    </div>
+                </div>
+            </div>
+            <app-ghost [ghosts]="ghosts" fxLayout="row wrap">
+            </app-ghost>
+        </div>
+        <!-------------student-list------------->
+        <div class="student-details">
+            <div class="search-student">
+                <div class="search-hero row">
+                    <div class="col-8"><input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search Student"></div>
+                    <div class="col-4"><i class="fa fa-search"></i></div>
+                </div>
+            </div>
+            <!-- <div *ngIf='studentData | async as studentData' [@fadeIn]="studentData.length"  fxLayout="row wrap" class="list"> -->
+            <div class="list">
+                <div class="student-container">
+                    <!--------Table Header---------->
+                    <div class="row student-header">
+                        <div class="col-1">
+                            <h6></h6>
+                        </div>
+                        <div class="col-2 student-header-text">
+                            <h6>First Name</h6>
+                        </div>
+                        <div class="col-2 student-header-text">
+                            <h6>Last Name</h6>
+                        </div>
+                        <div class="col-3 student-header-text">
+                            <h6>Batch</h6>
+                        </div>
+                        <div class="col-3 student-header-text">
+                            <h6>Course</h6>
+                        </div>
+                        <div class="col-1 student-header-text">
+                            <h6>Status</h6>
+                        </div>
+                    </div>
+                    <!--------Table Header---------->
+                    <div *ngIf='studentData'>
+                        <div *ngFor="let student of studentData |
+                        filter:searchText; index
+                        as
+                        i">
+                            <div class="row student-info">
+                                <div class="round col-1">
+                                    <input type="checkbox" id="checkbox-s{{i}}" class="checkbox-s" [disabled]="student?.disabled" [checked]="student?.checkbox" (click)="setSingleStudentCheckbox($event,
+                                    student,student.batchId)" />
+                                    <label for="checkbox-s{{i}}"></label>
+                                </div>
+
+                                <div class="col-2 student-text student-name">
+                                    <h6>{{student?.studentFirstName}}</h6>
+                                </div>
+
+                                <div class="col-2 student-text student-name">
+                                    <h6>{{student?.studentLastName}}</h6>
+                                </div>
+                                <!-- <div class="col-1 student-text student-email">
+                                    <h6>{{student?.emailId}}</h6>
+                                </div> -->
+                                <div class="col-3 student-text
+                                student-batchName">
+                                    <h6>{{student?.batchName}}</h6>
+                                </div>
+                                <div class="col-3 student-text student-courseName">
+                                    <h6>{{student?.courseName}}</h6>
+                                </div>
+                                <div class="col-1 student-text
+                                student-subscribe">
+                                    <h6>{{student?.subscribe}}</h6>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <app-ghost2 *ngIf="ghosts2.length>0" [ghosts2]="ghosts2" fxLayout="row wrap">
+                    </app-ghost2>
+                    <!-- <div class="nostudent">
+                        <h4>{{nostudent}}</h4>
+                    </div> -->
+                    <!-- <div class="nostudent"><h4>{{nothingSelected}}</h4></div> -->
+                    <app-no-result *ngIf="nostudent" [data]="{message : '', messageText: 'No student selected.'}"></app-no-result>
+                </div>
+                <!-- </div> -->
+            </div>
+
+            <!-- [@fadeOut]="!ghosts.length"   -->
+            <!------------------notification-editor----------->
+            <div class="notification-editor">
+                <div class="text-editor">
+                    <form [formGroup]="myform" (ngSubmit)="onSubmit()" id="myForm">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" formControlName="message" placeholder="enter text..." required>
+                                </div>
+                                <div *ngIf="formError" class="error ml-20">
+                                    <h6>{{formError}}</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <button type="submit" class="editor-btn
+                                        send-btn m-10">Send</button>
+                                </div>
+                                <!-- <div class="row">
+                                    <button type="reset" class="editor-btn
+                                        reset-btn m-10">Reset</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@ import { AuthGuard } from '../core/guard/auth-gard.service';
 import { AdduserComponent } from './components/adduser/adduser.component';
 import { ViewuserComponent } from './components/viewuser/viewuser.component';
 import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } from '../org-management';
+import { PushNotificationComponent } from '../push-notification';
 const telemetryEnv = 'workspace';
 const objectType = 'workspace';
 const routes: Routes = [
@@ -350,7 +351,13 @@ const routes: Routes = [
   //   {label: 'Adduser', url: 'Adduser'}]
   //   }
   // },
-
+  {
+    path: 'content/pushnotification', component: PushNotificationComponent,
+    data: {
+      roles: 'workspace',
+      breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+    }
+  },
 ];
 
 @NgModule({

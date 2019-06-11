@@ -101,6 +101,10 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showNoteEditor = false;
 
+  // Sunbird-Implementation-Team-Gurgaon-NehaVerma
+  public showPushNotificationPage = false;
+  //Sunbird-Implementation-Team-Gurgaon-NehaVerma
+
   public telemetryCourseImpression: IImpressionEventInput;
 
   public telemetryContentImpression: IImpressionEventInput;

@@ -64,7 +64,7 @@ import { LearnModule } from '@sunbird/learn';
     CollaborationContentFilterComponent,
     AdduserComponent,
     ViewuserComponent,
-    CreateBatchComponent,
+    CreateBatchComponent
   ],
   providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService],
   entryComponents: [CreateBatchComponent]

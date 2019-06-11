@@ -33,6 +33,8 @@ import { SharedFeatureModule } from '@sunbird/shared-feature';
 import { BatchCardComponent } from './components/batch/batch-card/batch-card.component';
 import { TopCategoriesComponent } from './components/top-categories/top-categories.component';
 import { CourseDeliveryPageComponent } from './components/course-consumption/course-delivery-page/course-delivery-page.component';
+import { PushNotificationModule } from '../push-notification/push-notification.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { CourseDeliveryPageComponent } from './components/course-consumption/cou
     DashboardModule,
     SlickModule,
     FormsModule,
+    PushNotificationModule,
     LearnRoutingModule,
     CoreModule,
     ReactiveFormsModule,

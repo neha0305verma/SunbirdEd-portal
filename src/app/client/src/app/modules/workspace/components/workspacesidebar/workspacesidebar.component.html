@@ -1,75 +1,62 @@
 <h4 class="workspaceicon ui header sectionHeading mt-20"><i class="database icon"></i>
-  <span>
+    <span>
       {{resourceService?.frmelmnts?.scttl?.myworkspace}}
     </span>
 </h4>
 <div class="publicmenusection ui secondary vertical menu">
-  <a *ngIf='permissionService.permissionAvailable' appPermission [permission]='createRole' class="item" [routerLink]="['create']" routerLinkActive="active">
+    <a *ngIf='permissionService.permissionAvailable' appPermission [permission]='createRole' class="item" [routerLink]="['create']" routerLinkActive="active">
       {{resourceService?.frmelmnts?.snav?.start}}
     </a>
-  <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/allcontent') "
-  appPermission [permission]='allContentRole' class="item" [routerLink]="['allcontent',1]">
+    <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/allcontent') " appPermission [permission]='allContentRole' class="item" [routerLink]="['allcontent',1]">
        {{resourceService?.frmelmnts?.snav?.allmycontents}}
   </a>
-  <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/draft') " appPermission
-    [permission]='draftRole' class="item" [routerLink]="['draft',1]">
+    <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/draft') " appPermission [permission]='draftRole' class="item" [routerLink]="['draft',1]">
        {{resourceService?.frmelmnts?.snav?.draft}}
     </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='inreviewRole' [routerLink]="['review',1]"
-    [class.active]="router.isActive('/workspace/content/review')">
+    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='inreviewRole' [routerLink]="['review',1]" [class.active]="router.isActive('/workspace/content/review')">
     {{resourceService?.frmelmnts?.snav?.inreview}}
   </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='publishedRole' [routerLink]="['published',1]"
-    [class.active]="router.isActive('/workspace/content/published')">
+    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='publishedRole' [routerLink]="['published',1]" [class.active]="router.isActive('/workspace/content/published')">
     {{resourceService?.frmelmnts?.snav?.published}}
   </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='alluploadsRole' [routerLink]="['uploaded',1]"
-    [class.active]="router.isActive('/workspace/content/uploaded')">
+    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='alluploadsRole' [routerLink]="['uploaded',1]" [class.active]="router.isActive('/workspace/content/uploaded')">
     {{resourceService?.frmelmnts?.snav?.alluploads}}
   </a>
-  <!-- <a class="item" [routerLink]="['upForReview',1]" routerLinkActive="active"> -->
-  <a class="item" *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/upForReview')"
-    [routerLink]="['upForReview',1]" appPermission [permission]='upForReviewRole'>
+    <!-- <a class="item" [routerLink]="['upForReview',1]" routerLinkActive="active"> -->
+    <a class="item" *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/upForReview')" [routerLink]="['upForReview',1]" appPermission [permission]='upForReviewRole'>
     {{resourceService?.frmelmnts?.snav?.upForReview}}
   </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/flagreviewer')"
-    [routerLink]="['flagreviewer',1]" appPermission [permission]='flagReviewer'>
+    <a class="item" *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/flagreviewer')" [routerLink]="['flagreviewer',1]" appPermission [permission]='flagReviewer'>
     {{resourceService?.frmelmnts?.snav?.flagReviewer}}
   </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='coursebacthesRole' [routerLink]="['batches',1]"
-    [class.active]="router.isActive('/workspace/content/batches')">
+    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='coursebacthesRole' [routerLink]="['batches',1]" [class.active]="router.isActive('/workspace/content/batches')">
     {{resourceService?.frmelmnts?.lnk?.coursebacthes}}
   </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='flaggedRole' [routerLink]="['flagged',1]"
-    [class.active]="router.isActive('/workspace/content/flagged')">
+    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='flaggedRole' [routerLink]="['flagged',1]" [class.active]="router.isActive('/workspace/content/flagged')">
     {{resourceService?.frmelmnts?.snav?.flagged}}
   </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='limitedPublishingRole' [routerLink]="['limited-publish',1]"
-    [class.active]="router.isActive('/workspace/content/limited-publish')">
+    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='limitedPublishingRole' [routerLink]="['limited-publish',1]" [class.active]="router.isActive('/workspace/content/limited-publish')">
    {{resourceService?.frmelmnts?.snav?.limitedPublishing}}
   </a>
-  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='collaboratingRole' [routerLink]="['collaborating-on',1]"
-  [class.active]="router.isActive('/workspace/content/collaborating-on')">
+    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='collaboratingRole' [routerLink]="['collaborating-on',1]" [class.active]="router.isActive('/workspace/content/collaborating-on')">
  {{resourceService?.frmelmnts?.snav?.Collaboratingon}}
 </a>
-<a class="item" *ngIf='permissionService.admin' [routerLink]= "['adduser', 1]"
-[class.active]="router.isActive('/workspace/content/adduser')">
+    <a class="item" *ngIf='permissionService.admin' [routerLink]="['adduser', 1]" [class.active]="router.isActive('/workspace/content/adduser')">
 Add User
 </a>
-<a class="item" *ngIf='permissionService.admin' [routerLink]= "['viewuser', 1]"
-[class.active]="router.isActive('/workspace/content/viewuser')">
+    <a class="item" *ngIf='permissionService.admin' [routerLink]="['viewuser', 1]" [class.active]="router.isActive('/workspace/content/viewuser')">
 View Users
 </a>
-<a class="item" *ngIf='permissionService.admin' [routerLink]= "['addOrganisation', 1]"
-[class.active]="router.isActive('/workspace/content/addOrganisation')">
+    <a class="item" *ngIf='permissionService.admin' [routerLink]="['addOrganisation', 1]" [class.active]="router.isActive('/workspace/content/addOrganisation')">
 Add Organisations
 </a>
-<a class="item" *ngIf='permissionService.admin' [routerLink]= "['addMultipleUsers', 1]"
-[class.active]="router.isActive('/workspace/content/addMultipleUsers')">
+    <a class="item" *ngIf='permissionService.admin' [routerLink]="['addMultipleUsers', 1]" [class.active]="router.isActive('/workspace/content/addMultipleUsers')">
 Add Multiple Users
 </a>
-<a class="item" *ngIf='permissionService.admin' [routerLink]= "['checkUploadStatus', 1]"
-[class.active]="router.isActive('/workspace/content/checkUploadStatus')">
+    <a class="item" *ngIf='permissionService.admin' [routerLink]="['checkUploadStatus', 1]" [class.active]="router.isActive('/workspace/content/checkUploadStatus')">
 Check Upload Status
+</a>
+    <a *ngIf='permissionService.permissionAvailable' appPermission [permission]='createRole' class="item" [routerLink]="['pushnotification']" routerLinkActive="active">
+  Pushnotification
 </a>
 </div>

@@ -59,6 +59,7 @@
     "ng2-charts": "^1.6.0",
     "ng2-izitoast": "2.0.0",
     "ng2-scroll-to": "^1.0.7",
+    "ng2-search-filter": "^0.5.1",
     "ng2-semantic-ui": "github:project-sunbird/ng2-semantic-ui",
     "ng4-click-outside": "^1.0.1",
     "ngx-avatar": "^3.2.0",
