@@ -58,6 +58,7 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
     return moment(this.enrolledDate).add(day, 'days').format('D MMMM YYYY');
   }
   ngAfterViewInit() {
+    let flag=true;
     let options: IFancytreeOptions = {
       extensions: ['glyph'],
       clickFolderMode: 3,
@@ -71,15 +72,18 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
       },
       renderNode:  (event, data) => {
         // Optionally tweak data.node.span
-        if (data.node.data.activityType) {
-          $(data.node.span).append(
+        if(flag){
+          if (data.node.data.activityType) {
+            $(data.node.span).append(
             '<span class=\'activitytypeicon fas fa-' +
               data.node.data.activityType +
               '\'></span>'
           );
+         }
         }
       },
       click: (event, data): boolean => {
+        flag=false;
         const node = data.node;
         this.itemSelect.emit(node);
         return true;
