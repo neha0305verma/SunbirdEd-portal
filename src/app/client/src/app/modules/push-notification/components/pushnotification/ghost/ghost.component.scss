@@ -1,3 +1,4 @@
+@import '../../utils/animations/ghost-animation.scss';
 .batch-card-ghost {
     width: 140px;
     height: 140px;
@@ -9,4 +10,5 @@
     padding: 20px;
     float: left;
     display: inline;
+    @include animate-ghost-line;
 }

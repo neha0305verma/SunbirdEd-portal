@@ -1,3 +1,4 @@
+@import '../utils/animations/ghost-animation.scss';
 $purple-color: #451771;
 $green-color: #3cbbb0;
 $gray-color: #E8E8E8;
@@ -296,6 +297,7 @@ $checkbox-green-color: #66bb6a;
     width: 300px;
     background: #ececec;
     border: 2px solid #fff;
+    @include animate-ghost-line;
 }
 
 @media only screen and (max-width: 768px) {}
