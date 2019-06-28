@@ -46,6 +46,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { IUserData } from '../../../../shared';
 import { Subscription } from 'rxjs';
 import { SubscriptionLike as ISubscription } from 'rxjs';
+import { debug } from 'util';
 export enum IactivityType {
   'Self Paced' = 'film',
   'live Session' = 'headset',
@@ -287,6 +288,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           if (this.batchId) {
             this.enrolledBatchInfo = enrolledBatchDetails;
             console.log(this.enrolledBatchInfo);
+            // debugger;
             this.enrolledCourse = true;
             this.setTelemetryStartEndData();
             if (this.enrolledBatchInfo.status && this.contentIds.length) {
@@ -532,7 +534,16 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         this.permissionService.checkRolesPermissions(this.previewContentRoles) ||
         this.courseHierarchy.createdBy === this.userService.userid && this.userEnrolledBatch
       ) {
-        this.route.navigate(['/learn/play/batch', this.batchId, 'course', this.courseId, {enrolledDate: this.enrolledDate}],
+// tslint:disable-next-line: max-line-length
+        this.route.navigate(['/learn/play/batch', this.batchId, 'course', this.courseId,
+        {
+          enrolledDate: this.enrolledDate,
+          userEnrolledBatch: this.userEnrolledBatch,
+          userName: this.userName,
+          isEnrolled: this.isEnrolled,
+          isLoggedIn: this.isLoggedIn
+        }
+      ],
          navigationExtras);
         this.enableContentPlayer = false;
 
@@ -554,9 +565,9 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       'recieved content progress event fro the content player ',
       event
     ); */
-    /* if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
-      return;
-    } */
+    //  if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
+    //   return;
+    // }
     const eid = event.detail.telemetryData.eid;
     if (eid === 'END' && !this.validEndEvent(event)) {
       return;

@@ -1,47 +1,42 @@
-
-  <div>
+<div>
     <div class="filter-reset-text-div p-3 computer only">
-      <span class="filter-text"><i class="mr-2 ml-2 fas fa-filter"></i>{{resourceService.frmelmnts.lbl.filters}}</span>
-      <span class="float-right mr-2 reset-blue-text mt-2" (click)="resetFilters()">{{resourceService.frmelmnts.lbl.resetall}}</span>
+        <span class="filter-text"><i class="mr-2 ml-2 fas fa-filter"></i>{{resourceService.frmelmnts.lbl.filters}}</span>
+        <span class="float-right mr-2 reset-blue-text mt-2" (click)="resetFilters()">{{resourceService.frmelmnts.lbl.resetall}}</span>
     </div>
     <div class="filter-reset-text-div p-3 mt-3 mobile only">
         <span class="filter-text" (click)="expandFilters()"><i class="mr-2 ml-2 fas fa-filter"></i>{{resourceService.frmelmnts.lbl.filters}}</span>
         <span class="float-right mr-2 reset-blue-text" (click)="resetFilters()">{{resourceService.frmelmnts.lbl.resetall}}</span>
-      </div>
-  </div>
-  <div class="row computer only">
+    </div>
+</div>
+<div class="row computer only">
     <div class="col-md-12">
-      <form>
-        <fieldset>
-          <div *ngIf="formFieldProperties">
-            <div *ngFor="let field of filtersDetails;let i=index;">
-              <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
-                <div>
-                  <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{translationsobj[i][langselected]}}
-                    <i class="minus mr-3"
-                      [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
+        <form>
+            <fieldset>
+                <div *ngIf="formFieldProperties">
+                    <div *ngFor="let field of filtersDetails;let i=index;">
+                        <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+                            <div>
+                                <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.translations[langselected]}}
+                                    <i class="minus mr-3" [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
                     </i>
-                  </h6>
-                </div>
-                <div class="filtersBody" *ngIf="flagArray[i] === false">
-                  <div class="form-group" *ngIf="field.inputType==='select'">
-                    <fieldset class="form-group" *ngIf="field.inputType==='select'">
-                      <div class="form-check" *ngFor="let option of field.range">
-                        
-                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
-                          type="checkbox" [value]="option.name" *ngIf="field.name !== 'Rating'">
-                        <label class="form-check-label" id="textcolor"  *ngIf="field.name !== 'Rating'">
-                            &nbsp; {{option.name}} </label>
-                            <div class="justright" *ngFor="let child of option.children">
-                              <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
-                                type="checkbox" [value]="child.name" *ngIf="child.name !== 'Rating'">
-                              <label class="form-check-label" id="textcolor" *ngIf="child.name !== 'Rating'">
-                                &nbsp; {{child.name}} </label>
+                                </h6>
                             </div>
+                            <div class="filtersBody" *ngIf="flagArray[i] === false">
+                                <div class="form-group" *ngIf="field.inputType==='select'">
+                                    <fieldset class="form-group" *ngIf="field.inputType==='select'">
+                                        <div class="form-check" *ngFor="let option of field.range">
 
-                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
-                            type="checkbox" [value]="option.name"*ngIf="field.name === 'Rating'" >
-                            <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                                            <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox" [value]="option.name" *ngIf="field.name !== 'Rating'">
+                                            <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
+                            &nbsp; {{option.name}} </label>
+                                            <div class="justright" *ngFor="let child of option.children">
+                                                <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox" [value]="child.name" *ngIf="child.name !== 'Rating'">
+                                                <label class="form-check-label" id="textcolor" *ngIf="child.name !== 'Rating'">
+                                &nbsp; {{child.name}} </label>
+                                            </div>
+
+                                            <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox" [value]="option.name" *ngIf="field.name === 'Rating'">
+                                            <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
                             <span class="pl-2"*ngIf="option.name=== '5'">
                                 <i class="fas fa-star yellow-star"></i>
                                   <i class="fas fa-star yellow-star"></i>
@@ -88,42 +83,41 @@
                              </span>
                      
                         </label>
-                      </div>
-                    </fieldset>
-                  </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-      </form>
+            </fieldset>
+        </form>
     </div>
-  </div>
-  <div class="row mobile only" *ngIf="expand">
-      <div class="col-md-12">
+</div>
+<div class="row mobile only" *ngIf="expand">
+    <div class="col-md-12">
         <form>
-          <fieldset>
-            <div *ngIf="formFieldProperties">
-              <div *ngFor="let field of filtersDetails;let i=index;">
-                <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory && field.code !== 'board'">
-                  <div>
-                    <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.name}}
-                      <i class="minus mr-3"
-                        [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
+            <fieldset>
+                <div *ngIf="formFieldProperties">
+                    <div *ngFor="let field of filtersDetails;let i=index;">
+                        <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory && field.code !== 'board'">
+                            <div>
+                                <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.name}}
+                                    <i class="minus mr-3" [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
                       </i>
 
-                    </h6>
-                  </div>
-                  <div class="filtersBody" *ngIf="flagArray[i] === false">
-                    <div class="form-group" *ngIf="field.inputType==='select'">
-                      <fieldset class="form-group" *ngIf="field.inputType==='select'">
-                        <div class="form-check" *ngFor="let option of field.range">
-  
-                          <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
+                                </h6>
+                            </div>
+                            <div class="filtersBody" *ngIf="flagArray[i] === false">
+                                <div class="form-group" *ngIf="field.inputType==='select'">
+                                    <fieldset class="form-group" *ngIf="field.inputType==='select'">
+                                        <div class="form-check" *ngFor="let option of field.range">
+
+                                            <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
                             <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
                               type="checkbox" [value]="option.name">
                             &nbsp; {{option.name}} </label>
-                          <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                                            <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
                             <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
                               type="checkbox" [value]="option.name">
                       
@@ -171,14 +165,14 @@
                                </span>
                        
                           </label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
                         </div>
-                      </fieldset>
                     </div>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </fieldset>
+            </fieldset>
         </form>
-      </div>
     </div>
+</div>

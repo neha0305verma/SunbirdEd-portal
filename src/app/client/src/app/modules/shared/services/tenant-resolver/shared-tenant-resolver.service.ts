@@ -58,19 +58,22 @@ export class SharedTenantResolverService {
   /**
    * Generic method called in app component to initiate the tenant retrieval process
    */
-  getTenantInfo(): Observable<string | boolean> {
-    const themedata = this.cookieSrvc.getCookie('theming');
+  getTenantInfo(): Observable<string | boolean | any> {
+    let themedata = this.cookieSrvc.getCookie('theming');
+    if (!!themedata) {
+      themedata = JSON.parse(themedata);
+    }
     let userid;
 
     userid = this.isLoggedIn(userid);
     const tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
     // check if user is logged in or not
 
-    if (userid === null) {
+    if (!userid) {
       // user is not logged in
-      if (performance.navigation.type === 1 && !!!this.badReload) {
+      if (performance.navigation.type === 1 && !this.badReload) {
         // if the page is reloaded
-        if (themedata === 'null' || themedata === '' || !!themedata)  {
+        if (themedata === 'null' || !themedata)  {
           // set the reload to false so that new tenant information can be fetched
           this.badReload = true;
           return this.getTenantInfo();
@@ -81,9 +84,9 @@ export class SharedTenantResolverService {
          // user visited the root page after logout
         this.reloadSameConfig('logout');
         return of(true);
-      } else if (!!themedata && themedata !== 'null') {
+      } else if (!!themedata) {
         // there is some tenant data present in the cookies
-        const localStorageConfig = JSON.parse(themedata) || null;
+        const localStorageConfig = themedata;
 
         if (!!localStorageConfig && localStorageConfig['homeUrl'] !== tenantUrl) {
           // cookie data is invalid, get new one
