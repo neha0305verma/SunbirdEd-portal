@@ -43,6 +43,9 @@ import {
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { PublicDataService, LearnerService } from '@sunbird/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { IUserData } from '../../../../shared';
+import { Subscription } from 'rxjs';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 export enum IactivityType {
   'Self Paced' = 'film',
   'live Session' = 'headset',
@@ -103,7 +106,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Sunbird-Implementation-Team-Gurgaon-NehaVerma
   public showPushNotificationPage = false;
-  //Sunbird-Implementation-Team-Gurgaon-NehaVerma
+  // Sunbird-Implementation-Team-Gurgaon-NehaVerma
 
   public telemetryCourseImpression: IImpressionEventInput;
 
@@ -175,6 +178,10 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   mimeTypeCount = 0;
   mimeType = '';
   enrolledDate: any;
+  isEnrolled = false;
+  isLoggedIn = false;
+  userName: any;
+  userSubscription: ISubscription;
   @ViewChild('target') targetEl: ElementRef;
   @ViewChild('top') topEl: ElementRef;
   scroll(el: ElementRef) {
@@ -210,6 +217,16 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
   }
   ngOnInit() {
+      this.userSubscription = this.userService.userData$.subscribe(
+      (user: IUserData) => {
+        console.log('user infoe', user.userProfile.firstName);
+        if (user && !user.err) {
+          this.userName = user.userProfile.firstName;
+        }
+      });
+    if (this.userService.loggedIn) {
+      this.isLoggedIn = true;
+    }
     console.log('this.activatedroute', this.activatedRoute.snapshot.params.enrolledDate);
     this.activatedRoute.params
       .pipe(
@@ -221,8 +238,10 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           this.setTelemetryCourseImpression();
 
           if (this.batchId) {
+            this.isEnrolled = true;
             this.userEnrolledBatch = true;
             this.enrolledDate = this.activatedRoute.snapshot.params.enrolledDate;
+            console.log('batch id', this.isEnrolled, this.isLoggedIn, this.batchId, this.courseId);
           }
 
           const inputParams = {
@@ -267,6 +286,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           this.parseChildContent();
           if (this.batchId) {
             this.enrolledBatchInfo = enrolledBatchDetails;
+            console.log(this.enrolledBatchInfo);
             this.enrolledCourse = true;
             this.setTelemetryStartEndData();
             if (this.enrolledBatchInfo.status && this.contentIds.length) {
@@ -298,16 +318,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(
         courseProgressData => (this.courseProgressData = courseProgressData)
       );
-    // triggering sidebar change
-    // $(() => {
-    //   $('.ui.sidebar').sidebar({
-    //     context: $('.bottom.segment')
-    //   })
-    //   .sidebar('attach events', '.menu .item');
-    // });
-    // if(this.userEnrolledBatch) {
-    //   this.navigateToContent();
-    // }
   }
   ngAfterViewInit() {
     console.log(this.showJumbotron);

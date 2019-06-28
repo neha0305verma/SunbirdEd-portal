@@ -283,7 +283,12 @@ if (!_.isEmpty(data)) {
       requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
       requestData.framework = this.framework;
     if (this.contentType === 'studymaterial') {
-      requestData.mimeType = this.configService.appConfig.CONTENT_CONST.CREATE_LESSON;
+      if (requestData.activityType === 'Live Session') {
+        requestData.mimeType = 'text/x-url';
+      } else {
+        requestData.mimeType = this.configService.appConfig.CONTENT_CONST.CREATE_LESSON;
+
+      }
     } else {
       requestData.mimeType = this.configService.urlConFig.URLS.CONTENT_COLLECTION;
     }

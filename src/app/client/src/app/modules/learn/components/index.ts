@@ -10,3 +10,5 @@ export * from './batch/update-course-batch/update-course-batch.component';
 export * from './course-consumption/curriculum-card/curriculum-card.component';
 export * from './course-consumption/showactivitytype/show-activitytype.component';
 export * from './batch/batch-card/batch-card.component';
+export * from './batch/livesession/livesession.component';
+export * from './batch/update-livesession/update-livesession.component';

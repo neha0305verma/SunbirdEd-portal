@@ -18,7 +18,9 @@ import {
   UpdateCourseBatchComponent,
   CurriculumCardComponent,
   ActivitytypeCardComponent,
-  UnEnrollBatchComponent
+  UnEnrollBatchComponent,
+  LivesessionComponent,
+  UpdateLivesessionComponent
 } from './components';
 import {
   CourseConsumptionService,
@@ -35,6 +37,7 @@ import { TopCategoriesComponent } from './components/top-categories/top-categori
 import { CourseDeliveryPageComponent } from './components/course-consumption/course-delivery-page/course-delivery-page.component';
 import { PushNotificationModule } from '../push-notification/push-notification.module';
 
+import { LiveSessionUrlComponent } from './components/live-session-url/live-session-url.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -72,7 +75,10 @@ import { PushNotificationModule } from '../push-notification/push-notification.m
     UnEnrollBatchComponent,
     BatchCardComponent,
     TopCategoriesComponent,
-    CourseDeliveryPageComponent
-    ]
+    CourseDeliveryPageComponent,
+    LiveSessionUrlComponent,
+    LivesessionComponent,
+    UpdateLivesessionComponent,
+  ]
 })
 export class LearnModule {}

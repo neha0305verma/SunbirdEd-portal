@@ -6,7 +6,7 @@ import {
   UtilService, ResourceService, ToasterService, IUserData, IUserProfile,
   NavigationHelperService, ConfigService, BrowserCacheTtlService
 } from '@sunbird/shared';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
 import { TenantResolverService } from '../app/modules/public/services/TenantResolver/tenant-resolver.service';
 import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
 import { UserService, PermissionService, CoursesService, TenantService, OrgDetailsService, DeviceRegisterService } from '@sunbird/core';
@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
                 1.2.1.1 if user did not came from logout, update the theme based on url
     */
    this.sharedTenant.getTenantInfo().subscribe(themeData => {
-     if (typeof themeData === 'boolean' && !!themeData) {
+     if ( !!themeData['value'] || (typeof themeData === 'boolean' && !!themeData)) {
       this.theme = true;
      } else if (_.isString(themeData)) {
        // console.log('object data recorded', themeData);

@@ -99,7 +99,7 @@ export class CollectionPlayerComponent implements OnInit, OnDestroy {
   public contentDetails = [];
   public nextPlaylistItem: any;
   public prevPlaylistItem: any;
-
+userEnrolledBatch;
   constructor(route: ActivatedRoute, playerService: PlayerService,
     windowScrollService: WindowScrollService, router: Router, public navigationHelperService: NavigationHelperService,
     private toasterService: ToasterService, private resourceService: ResourceService,
@@ -114,6 +114,13 @@ export class CollectionPlayerComponent implements OnInit, OnDestroy {
     this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
   }
   ngOnInit() {
+    if (this.route.snapshot.params.hasOwnProperty('batchId')) {
+      this.userEnrolledBatch = true;
+    } else {
+      this.userEnrolledBatch = false;
+    }
+    console.log(this.route, this.userEnrolledBatch);
+
     this.getContent();
   }
 
@@ -226,6 +233,7 @@ export class CollectionPlayerComponent implements OnInit, OnDestroy {
       first(),
       mergeMap((params) => {
         this.collectionId = params.collectionId;
+        console.log(this.collectionId);
         this.collectionStatus = params.collectionStatus;
         return this.getCollectionHierarchy(params.collectionId);
       }), )

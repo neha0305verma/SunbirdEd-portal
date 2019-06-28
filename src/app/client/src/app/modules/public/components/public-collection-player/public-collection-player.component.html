@@ -70,7 +70,8 @@
   </div>
   <div class="row" *ngIf="!loader">
     <div class="twelve wide column">
-      <app-collection-tree *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon" (contentSelect)="OnPlayContent($event)" [nodes]="collectionTreeNodes" [options]="collectionTreeOptions">
+      <app-collection-tree *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon" (contentSelect)="OnPlayContent($event)" [nodes]="collectionTreeNodes" 
+          [userEnrolledBatch] = "userEnrolledBatch"[options]="collectionTreeOptions">
       </app-collection-tree>
       <ng-template #dataCommingSoon>
         <div class="placeholder mt-40">

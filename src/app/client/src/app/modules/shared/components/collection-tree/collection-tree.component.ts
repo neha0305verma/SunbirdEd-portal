@@ -37,18 +37,24 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() public nodes: ICollectionTreeNodes;
   @Input() public options: ICollectionTreeOptions;
   @Input() public enrolledDate: any;
+  @Input() public name: any;
+  @Input() public courseId: any;
+  @Input() public batchId: any;
   date: Date;
   @Output() public contentSelect: EventEmitter<{
     id: string;
     title: string;
   }> = new EventEmitter();
   @Input() contentStatus: any;
+  @Input() enrolled: boolean;
+  @Input() loggedIn: boolean;
   private rootNode: any;
   public rootChildrens: any;
   public children = [];
   public preContent = {};
   public contentsStatus = [];
   public completedUnits = [];
+  @Input() userEnrolledBatch;
 openLock = false;
 open: boolean;
   statuscount = 0;
@@ -63,6 +69,7 @@ open: boolean;
     this.resourceService = resourceService;
   }
   ngOnInit() {
+    console.log('enrolled date', this.enrolledDate, this.enrolled, this.loggedIn, this.name, this.batchId, this.courseId);
     this.initialize();
   }
 
@@ -85,7 +92,7 @@ open: boolean;
   }
 
   private initialize() {
-    console.log('contentStatus', this.contentStatus);
+    console.log('contentStatus', this.userEnrolledBatch);
 
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
@@ -187,9 +194,6 @@ open: boolean;
 
 public onNode(node: any) {
   console.log(node, open, this.completedUnits);
-
-
-
   if (node.model.prerequisites && !node.model.open) {
     let preData = node.model.prerequisites.split(',');
     console.log(preData);

@@ -1,7 +1,8 @@
 import { NoteListComponent } from '@sunbird/notes';
 import {
   LearnPageComponent, CourseConsumptionPageComponent, CoursePlayerComponent,
-  EnrollBatchComponent, UnEnrollBatchComponent, CreateBatchComponent, UpdateCourseBatchComponent
+  EnrollBatchComponent, UnEnrollBatchComponent, CreateBatchComponent, UpdateCourseBatchComponent,
+  LivesessionComponent
 } from './components';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,7 @@ import { CourseProgressComponent } from '@sunbird/dashboard';
 import { RedirectComponent } from './../shared/components/redirect/redirect.component';
 import { ViewAllComponent } from '@sunbird/shared-feature';
 import { CourseDeliveryPageComponent } from './components/course-consumption/course-delivery-page/course-delivery-page.component';
+import { LiveSessionUrlComponent } from './components/live-session-url/live-session-url.component';
 const telemetryEnv = 'course';
 const objectType = 'course';
 const routes: Routes = [
@@ -78,7 +80,18 @@ const routes: Routes = [
               },
               roles: 'coursebacthesRole'
             }
+          },
+          {
+            path: 'create/livesession/batch/:batchId', component: LivesessionComponent, canActivate: [AuthGuard],
+            data: {
+              telemetry: {
+                env: telemetryEnv, pageid: 'batch-create', type: 'view', mode: 'create',
+                object: { ver: '1.0', type: 'batch' }
+              },
+              roles: 'coursebacthesRole'
+            }
           }
+
         ]
       },
       {
@@ -101,7 +114,7 @@ const routes: Routes = [
             data: {
               telemetry: { env: telemetryEnv, pageid: 'batch-enroll', type: 'view', object: { ver: '1.0', type: 'batch' } }
             }
-          }
+          },
         ]
       },
       {
@@ -130,7 +143,8 @@ const routes: Routes = [
           },
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Courses', url: '/learn' }]
         }
-      }
+      },
+      { path: ':courseId/batch/:batchId/live-session' , component: LiveSessionUrlComponent},
     ]
   },
   {

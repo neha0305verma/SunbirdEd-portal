@@ -133,7 +133,7 @@
                                                 <!-- <img src="../../../../../../../../dist/assets/images/sunbird_logo.png"> -->
                                             </div>
                                             <app-collection-tree *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon" (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes" [options]="collectionTreeOptions"
-                                                [contentStatus]="contentStatus" [enrolledDate]="enrolledDate"></app-collection-tree>
+                                                [courseId]="courseId" [batchId]="batchId" [contentStatus]="contentStatus" [enrolledDate]="enrolledDate" [loggedIn]="isLoggedIn" [enrolled]="isEnrolled" [name]="userName" [userEnrolledBatch]="userEnrolledBatch"></app-collection-tree>
                                             <ng-template #dataCommingSoon>
                                                 <div class="placeholder mt-40">
                                                     <img src="{{'assets/images/datacomingsoon.png' | cdnprefixurl }}" />
@@ -530,55 +530,64 @@
                     </div>
                 </section>
 
+                <li class="nav-item">
+                    <a class="nav-link" (click)="scroll(target)">{{resourceService?.frmelmnts.lbl.description}}</a>
+                </li>
 
-            </div>
-        </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="content" role="tabpanel" aria-labelledby="content-tab">
+                        <app-collection-tree #top *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon" (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes" [userEnrolledBatch]="userEnrolledBatch"
+                            [options]="collectionTreeOptions" [contentStatus]="contentStatus">
+                        </app-collection-tree>
 
-        <sui-modal *ngIf="enableContentPlayer && !loader" id="preview-modal">
-            <div class="modal-height">
+                    </div>
+                </div>
 
-                <div class="row">
-                    <div class="col">
-                        <div class="pt-2 pb-3" id="app-player-collection-renderer">
-                            <div>
-                                <span class="ui HomeAccordianHeading left floated text-capitalize">{{contentTitle}}</span>
+                <sui-modal *ngIf="enableContentPlayer && !loader" id="preview-modal">
+                    <div class="modal-height">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="pt-2 pb-3" id="app-player-collection-renderer">
+                                    <div>
+                                        <span class="ui HomeAccordianHeading left floated text-capitalize">{{contentTitle}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+
+                                <div class="right-float">
+                                    <h5 appTelemetryInteract [telemetryInteractEdata]="closeContentIntractEdata" [telemetryInteractObject]="contentInteractObject" class="ui right floated basic icon circular  mouse-pointer" (click)="closeContentPlayer()">
+                                        <i class="ui remove icon"></i>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui warning message click-notify-xurl" *ngIf="showExtContentMsg">
+                            <div class="column twelve wide">
+                                <p>{{resourceService.messages.imsg.m0036}}</p>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="" [appTelemetryImpression]="telemetryContentImpression">
+                                <app-player (contentProgressEvent)="contentProgressEvent($event)" [playerConfig]="playerConfig">
+                                </app-player>
                             </div>
                         </div>
                     </div>
-                    <div class="col">
 
-                        <div class="right-float">
-                            <h5 appTelemetryInteract [telemetryInteractEdata]="closeContentIntractEdata" [telemetryInteractObject]="contentInteractObject" class="ui right floated basic icon circular  mouse-pointer" (click)="closeContentPlayer()">
-                                <i class="ui remove icon"></i>
-                            </h5>
-                        </div>
-                    </div>
+
+
+
+                </sui-modal>
+
+                <div *ngIf="loader">
+                    <app-loader [data]="loaderMessage"></app-loader>
+                </div>
+                <div *ngIf="showError">
                 </div>
 
-                <div class="ui warning message click-notify-xurl" *ngIf="showExtContentMsg">
-                    <div class="column twelve wide">
-                        <p>{{resourceService.messages.imsg.m0036}}</p>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="" [appTelemetryImpression]="telemetryContentImpression">
-                        <app-player (contentProgressEvent)="contentProgressEvent($event)" [playerConfig]="playerConfig">
-                        </app-player>
-                    </div>
-                </div>
             </div>
-
-
-
-
-        </sui-modal>
-
-        <div *ngIf="loader">
-            <app-loader [data]="loaderMessage"></app-loader>
-        </div>
-        <div *ngIf="showError">
-        </div>
-
-    </div>
-</ng-template>
-<router-outlet></router-outlet>
+            <!-- </ng-template> -->
+            <!-- <router-outlet></router-outlet> -->

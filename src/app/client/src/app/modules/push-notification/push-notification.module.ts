@@ -10,6 +10,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { GhostComponent } from './components/pushnotification/ghost/ghost.component';
 import { Ghost2Component } from './components/pushnotification/ghost2/ghost2.component';
 import { SlickModule } from 'ngx-slick';
+import { SuiModule } from 'ng2-semantic-ui';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { SlickModule } from 'ngx-slick';
     HttpClientModule,
     SharedModule,
     Ng2SearchPipeModule,
-    SlickModule
+    SlickModule,
+    SuiModule
   ],
   declarations: [
     PushNotificationComponent,

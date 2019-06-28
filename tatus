@@ -1,0 +1,26 @@
+[33m506530cb6[m[33m ([m[1;36mHEAD -> [m[1;32mpushNotification[m[33m)[m push notification ghost component animation done
+[33m6ff9937ae[m fancy tree icon issue solve
+[33mfe4ad1892[m push notification complete for one course
+[33mbd9b12c7f[m[33m ([m[1;31morigin/release-multitenant-1.0[m[33m, [m[1;32mrelease-multitenant-1.0[m[33m)[m Merge branch 'release-multitenant-1.0' of https://github.com/sumitnautiyal-sunbird/NIIT-tv into release-multitenant-1.0
+[33mc0862a1fd[m data integration for multi tenancy
+[33m440199874[m updated language files for tamil and telugu
+[33m0d115a441[m updated no cache
+[33m07b6a3c9c[m data integration in landing and browse page done
+[33m75bb4287c[m multi theming bug regarding null theme, fixed
+[33md0f1e8832[m browse courses language change bug fix
+[33mf1ac57f5e[m added tamil language
+[33m670e34e43[m improved fallback page
+[33m03b9b4653[m commenting the code
+[33md0b73cfd9[m updated tenant data storage from localStorage to sessionStorage
+[33m2c8b632b1[m Merge branch 'release-multitenant-1.0' of https://github.com/sumitnautiyal-sunbird/NIIT-tv into release-multitenant-1.0
+[33md8d53ea03[m code refactoring and error handling in the multi-tenancy part
+[33m54074aa89[m course delivery page Hindi language labels fixed
+[33mf7f7666c8[m static to non static page routing bug fixed
+[33m67913e9cb[m minor bug fix regarding post logout rendering
+[33mb5dbaab29[m minor bug fix
+[33m869778454[m post logout redirect to static page fixed
+[33m16e1ccd82[m Merge branch 'dark-purpl-multi-tenant-2' into release-multitenant-1.0
+[33m49df0bfd9[m Merge branch 'release-multitenant-1.0' of https://github.com/sumitnautiyal-sunbird/NIIT-tv into release-multitenant-1.0
+[33ma2a030cad[m multi tenant changes
+[33mebe453aae[m multi tenant working
+[33mc0ece0309[m multi tenant minor bug fixes, dynamic logo issue, dynamic cookie issue fixed

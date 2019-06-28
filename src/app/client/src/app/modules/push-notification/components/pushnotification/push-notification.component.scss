@@ -300,4 +300,11 @@ $checkbox-green-color: #66bb6a;
     @include animate-ghost-line;
 }
 
+.course {
+    color: #000;
+    background: #fff;
+    width: 100px;
+    border-radius: 5px;
+}
+
 @media only screen and (max-width: 768px) {}

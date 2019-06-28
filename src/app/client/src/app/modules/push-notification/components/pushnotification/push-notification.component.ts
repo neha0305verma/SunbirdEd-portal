@@ -34,7 +34,6 @@ import 'rxjs/add/operator/mergeMap';
 })
 export class PushNotificationComponent implements OnInit {
   courseId: string;
-  courseMentor = false;
   studentData = [];
   searchText;
   batchData = [];
@@ -72,6 +71,10 @@ export class PushNotificationComponent implements OnInit {
   studentList;
   formError;
   courseName;
+  courseData = [];
+  allBatchData = [];
+  public paramsObj: object = {};
+
   constructor(private fb: FormBuilder, private batchService: BatchDetailsPushNotificationService,
     private sharedData: SharedDataPushNotificationService,
     private sendService: PushNotificationSendService,
@@ -91,17 +94,21 @@ export class PushNotificationComponent implements OnInit {
     this.ghosts = [1, 2, 3, 4, 5, 6];
     this.ghosts2 = [1, 2, 3, 4];
     this.activatedRoute.paramMap.subscribe(params => {
-      this.courseId = params.get('courseId');
+      this.paramsObj['courseId'] = params.get('courseId');
     });
     this.myform = this.fb.group({
       message: ''
     });
     if (this.permissionService.checkRolesPermissions(['COURSE_MENTOR'])) {
-      this.courseMentor = true;
+      this.paramsObj['courseMentor'] = true;
     } else {
-      this.courseMentor = false;
+      this.paramsObj['courseMentor'] = false;
     }
-    this.getAllBatchDetails(this.courseId, this.courseMentor);
+    if (this.paramsObj.hasOwnProperty('courseId') && this.paramsObj['courseId'] === null) {
+      this.paramsObj['mentorId'] = this.userService.userProfile.identifier;
+      this.getAllBatchDetails(this.paramsObj);
+    }
+    this.getAllBatchDetails(this.paramsObj);
    }
 
   getStudentInfo(batchId, batchName, courseName, event) {
@@ -220,20 +227,27 @@ export class PushNotificationComponent implements OnInit {
   }
 
 
-  getAllBatchDetails(courseId, courseMentor) {
+  getAllBatchDetails(paramsObj) {
     this.showBatchList = false;
     this.showError = false;
     const searchParams: any = {
       filters: {
         status: this.batchStatus.toString(),
-        courseId: courseId
       },
       offset: 0,
       sort_by: { createdDate: 'desc' }
     };
     const searchParamsCreator = _.cloneDeep(searchParams);
-    if (courseMentor) {
-      searchParamsCreator.filters.createdBy = this.userService.userid;
+    if (paramsObj.courseMentor) {
+      if (paramsObj.courseId) {
+        searchParamsCreator.filters.createdBy = this.userService.userid;
+        searchParamsCreator.filters.courseId = this.paramsObj['courseId'];
+      } else if (paramsObj.mentorId) {
+        searchParamsCreator.filters.createdBy = this.paramsObj['mentorId'];
+      }
+    }
+
+
         this.getAllBatchDetails2(searchParamsCreator)
       .pipe(takeUntil(this.unsubscribe))
         .subscribe((data) => {
@@ -241,22 +255,43 @@ export class PushNotificationComponent implements OnInit {
             this.batchList = this.batchList.filter(batch => {
               if (batch.participant) {
                 const batchInstance = {};
+                const course = {};
                 batchInstance['batchId'] = batch.id;
                 batchInstance['batchName'] = batch.name;
                 batchInstance['courseName'] = batch.courseAdditionalInfo.courseName;
-                // if (batch.participant) {
-                //   batchInstance["totalStudent"] = Object.keys(batch.participant).length;
-                // } else {
-                //   batchInstance["totalStudent"] = 0;
-                // }
+                batchInstance['courseId'] = batch.courseId;
                 batchInstance['totalStudent'] = Object.keys(batch.participant).length;
                 batchInstance['selectedStudent'] = 0;
                 batchInstance['checkbox'] = false;
                 batchInstance['subscribedUser'] = 0;
                 this.courseName = batch.courseAdditionalInfo.courseName;
-                this.batchData.push(batchInstance);
+                course['courseId'] = batch.courseId;
+                course['courseName'] = batch.courseAdditionalInfo.courseName;
+                if (this.courseData.length > 0) {
+                  this.courseData.filter(course1 => {
+                    if (batch.courseId === course1.courseId) {
+                    } else {
+                      this.courseData.filter(course2 => {
+                        if (course2.courseId === course1.courseId) {
+                        } else {
+                          this.courseData.push(course1);
+                        }
+                      });
+                    }
+                  });
+                } else {
+                  this.courseData.push(course);
+                }
+
+                this.allBatchData.push(batchInstance);
                 return batch;
               }
+             });
+             console.log('course array', this.courseData);
+             this.allBatchData.filter(batch => {
+               if (batch.courseId === this.courseData[0].courseId) {
+                   this.batchData.push(batch);
+               }
              });
           this.ghosts = [];
             this.fetchUserDetails(event);
@@ -265,7 +300,7 @@ export class PushNotificationComponent implements OnInit {
           this.toasterService.error(this.resourceService.messages.fmsg.m0004);
         });
     }
-  }
+
 
   fetchUserDetails(event, batchName?, courseName?, batchId?) {
     if (this.batchList.length > 0) {
@@ -402,5 +437,11 @@ export class PushNotificationComponent implements OnInit {
   }
 
   // student details
+
+  getbatch(courseId) {
+    this.paramsObj['courseId'] = courseId;
+    this.getAllBatchDetails(this.paramsObj);
+    this.batchData = [];
+  }
 
 }

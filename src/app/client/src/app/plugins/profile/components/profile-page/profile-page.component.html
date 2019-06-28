@@ -1,7 +1,7 @@
 <div id="var2" *ngIf="userProfile" [appTelemetryImpression]="telemetryImpression">
   <div class="ui container">
     <div class="ui grid" >
-      <div class="three wide computer twelve wide mobile and tablet column" id="center" style="min-width: 320px;">
+      <div class="three wide computer twelve wide mobile and tablet column" id="center" style="min-width: 320px;min-height: 50rem;">
         <div class="container raised segment ui" >
           <ngx-avatar class="myy-avatar" [size]="100" initialsSize="1" [textSizeRatio]="2" [style]="customStyle"
             name="{{ userProfile.firstName }} ">
@@ -105,27 +105,24 @@
           </div>
      </div>
         </div>
-      </div>
-
-
-      <div class="nine wide computer twelve wide mobile and tablet column" id="center" >
-        <div class="ui container" *ngIf="
-          userProfile.badgeAssertions &&
-          userProfile.badgeAssertions.length > 0
-        " id="shadow1">
+      </div> 
+        <div class="nine wide computer twelve wide mobile and tablet column" id="center" >
+        <div class="ui container" 
+         id="shadow1">
           <extension-point *ngIf="
             userProfile.badgeAssertions &&
             userProfile.badgeAssertions.length > 0
           " [name]="'profile-widget'"></extension-point>
         </div>
-        <div class="ui raised  container segment" id="shadow" *ngIf="roles && roles.length > 0" style="min-width:275px;">
-          <h3 class="fs-1-286 ">Your Role &nbsp;<span
-              class="ui violet  align center fs-1 font-weight-bold"> ( {{roles.length}} )</span></h3>
-          <div class="mb-15 mx-10 " *ngIf="roles && roles.length > 0">
+        <div class="ui raised  container segment" id="shadow" *ngIf="roles && roles.length >= 0" style="min-width:275px; margin-top: 0;">
+          <h3 class="fs-1-286 pl-10">Your Role &nbsp;<span
+              class="ui violet  align center fs-1 font-weight-bold"> ( {{roles.length || '1' }} )</span></h3>
+          <div class="mb-15 mx-20 " *ngIf="roles && roles.length > 0">
             <span class="ui dodger-blue basic label mt-5 mr-10 mb-10" *ngFor="let role of roles">{{ role }}</span>
-
-
           </div>
+          <div class="mb-15 mx-20 " *ngIf="!(roles && roles.length > 0)">
+              <span class="ui dodger-blue basic label mt-5 mr-10 mb-10" > Public</span>
+            </div>
           <div *ngIf="contributions && contributions.length > 0">
             <!--contributions view starts-->
             <!-- <div class="fs-1-286  pl-20 mb-15 mobile only" *ngIf="contributions && contributions.length > 0">
@@ -161,6 +158,24 @@
               </div>
             </div>
           </div>
+          <div class="" *ngIf="!(contributions && contributions.length > 0)">
+              <div class="">
+                  <div class="fs-1-286 pl-10  pb-20">
+                    Your {{ resourceService.frmelmnts.scttl.contributions }} <span
+                      class="ui violet align center fs-1 font-weight-bold">( 0 )</span>
+                      <!-- <span class="float-ContentRight fs-1" id="font-color">Last Created {{ lastCreatedDate | date:'fullDate'}}</span> -->
+                  </div>
+                </div>
+              <!-- <div class="info text-ac fs-2">
+              <span class="ml-10"><i class="fa fa-exclamation-triangle icon" aria-hidden="true"></i></span>  
+              <span id="font-color">You don't have any contributions</span>
+            </div> -->
+            <div class="twelve wide column" >
+                <div class="ui raised segment mt-90">
+                  <app-loader [data]="contentMessage"></app-loader>
+                </div>
+              </div>
+            </div>
         </div>
 
       </div>

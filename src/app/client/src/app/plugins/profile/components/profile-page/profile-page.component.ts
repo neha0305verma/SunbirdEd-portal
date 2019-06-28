@@ -54,6 +54,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     headerMessage: '',
     loaderMessage: 'Loading profile ...'
   };
+  contentMessage = {
+    headerMessage: '',
+    loaderMessage: 'you dont have any Contributions...'
+  };
   showEdit = false;
   userSubscription: ISubscription;
   /** The button clicked value for interact telemetry event */

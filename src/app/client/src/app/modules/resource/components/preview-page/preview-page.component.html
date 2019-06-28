@@ -156,7 +156,8 @@
                                             <div class="tab-content" id="myTabContent">
                                                 <div class="tab-pane fade show active" id="content" role="tabpanel"
                                                     aria-labelledby="content-tab">
-                                                    <app-collection-tree *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon" (contentSelect)="OnPlayContent($event)" [nodes]="collectionTreeNodes" [options]="collectionTreeOptions">
+                                                    <app-collection-tree *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon" 
+                                                            [userEnrolledBatch] = "userEnrolledBatch"(contentSelect)="OnPlayContent($event)" [nodes]="collectionTreeNodes" [options]="collectionTreeOptions">
                                                         </app-collection-tree>
                                                         <ng-template #dataCommingSoon>
                                                           <div class="placeholder mt-40">

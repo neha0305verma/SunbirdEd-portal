@@ -53,7 +53,7 @@ export class PublicCollectionPlayerComponent implements OnInit, OnDestroy {
   private windowScrollService: WindowScrollService;
 
   private router: Router;
-
+userEnrolledBatch;
   public loader: Boolean = true;
   public treeModel: any;
   public contentDetails = [];
@@ -87,6 +87,13 @@ export class PublicCollectionPlayerComponent implements OnInit, OnDestroy {
     this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
   }
   ngOnInit() {
+    if (this.activatedRoute.snapshot.params.hasOwnProperty('batchId')) {
+      this.userEnrolledBatch = true;
+    } else {
+      this.userEnrolledBatch = false;
+    }
+    console.log(this.activatedRoute, this.userEnrolledBatch);
+
     this.getContent();
     this.setInteractEventData();
     this.deviceDetector();
@@ -197,6 +204,7 @@ export class PublicCollectionPlayerComponent implements OnInit, OnDestroy {
       first(),
       mergeMap((params) => {
         this.collectionId = params.collectionId;
+        console.log(this.collectionId);
         this.setTelemetryData();
         return this.getCollectionHierarchy(params.collectionId);
       }), )

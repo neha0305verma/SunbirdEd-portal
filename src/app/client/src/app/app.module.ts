@@ -18,17 +18,12 @@ import { CacheService } from 'ng2-cache-service';
 import { CacheStorageAbstract } from 'ng2-cache-service/dist/src/services/storage/cache-storage-abstract.service';
 import { CacheSessionStorage } from 'ng2-cache-service/dist/src/services/storage/session-storage/cache-session-storage.service';
 import { DeviceDetectorModule } from 'ngx-device-detector';
-import { TenantResolverService } from './modules/public/services/TenantResolver/tenant-resolver.service';
-import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
+import { CookieManagerService} from './modules/shared/services/cookie-manager/cookie-manager.service';
 
-export const tenantInfoProviderFactory = (provider: SharedTenantResolverService) => () => {
-  /* if (performance.navigation.type === 1) {
-    localStorage.setItem('reload', JSON.stringify(true));
-    return provider.reloadInfo();
-   } else {
-    localStorage.setItem('no reload', JSON.stringify(false));
-    return;
-   } */
+export const tenantInfoProviderFactory = (provider: CookieManagerService) => () => {
+  if (provider.getCookie('theming') === 'null') {
+    provider.setCookie('theming', '', 0);
+  }
 };
 
 
@@ -56,10 +51,10 @@ export const tenantInfoProviderFactory = (provider: SharedTenantResolverService)
   entryComponents: [AppComponent],
   bootstrap: [AppComponent],
   providers: [
-    SharedTenantResolverService,
-    {provide : APP_INITIALIZER, useFactory: tenantInfoProviderFactory, deps: [SharedTenantResolverService], multi: true},
+    CookieManagerService,
+    {provide : APP_INITIALIZER, useFactory: tenantInfoProviderFactory, deps: [CookieManagerService], multi: true},
     CacheService,
-    { provide: CacheStorageAbstract, useClass: CacheSessionStorage },
+    { provide: CacheStorageAbstract, useClass: CacheSessionStorage }
   ]
 })
 export class AppModule {

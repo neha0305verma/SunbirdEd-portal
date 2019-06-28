@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { Observable, of, BehaviorSubject} from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { TenantResolverService } from '../../../public/services/TenantResolver/tenant-resolver.service';
@@ -14,6 +14,7 @@ export class SharedTenantResolverService {
   public _tenantData = false;
   public tenantData$ = new BehaviorSubject<any>(this._tenantData);
   public tenantData = this.tenantData$.asObservable();
+  badReload = false;
 
   constructor(private mockservice: TenantResolverService,
     private cookieSrvc: CookieManagerService,
@@ -34,16 +35,23 @@ export class SharedTenantResolverService {
   /**
    *Updates the theme basedon the data set by setTenantConfig method
    */
-  updateTheme() {
+  updateTheme(sendObservable: boolean = false) {
     if (!!this._tenantData) {
       const primaryColor = this._tenantData['tenantPreferenceDetails']['Home']['theme']['primaryColor'];
       const secondaryColor = this._tenantData['tenantPreferenceDetails']['Home']['theme']['secondaryColor'];
       document.documentElement.style.setProperty('--primary-color', primaryColor);
       document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+      this.tenantData$.next(this._tenantData);
+      if (sendObservable) {
+        return of(true);
+      }
     } else {
       console.log('did not recieve any theme');
       this.cookieSrvc.setCookie('theming', '', 0);
-      return of(false);
+      // get the tenant data and then update the theme
+      if (sendObservable) {
+        return of(false);
+      }
     }
   }
 
@@ -60,10 +68,15 @@ export class SharedTenantResolverService {
 
     if (userid === null) {
       // user is not logged in
-      if (performance.navigation.type === 1) {
+      if (performance.navigation.type === 1 && !!!this.badReload) {
         // if the page is reloaded
-        this.reloadInfo();
-        return of(true);
+        if (themedata === 'null' || themedata === '' || !!themedata)  {
+          // set the reload to false so that new tenant information can be fetched
+          this.badReload = true;
+          return this.getTenantInfo();
+        }
+        return this.reloadInfo(true);
+
        } else if (localStorage.getItem('logout') === 'true') {
          // user visited the root page after logout
         this.reloadSameConfig('logout');
@@ -95,7 +108,7 @@ export class SharedTenantResolverService {
         }
         this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
         this.updateTheme();
-        this.tenantData$.next(this._tenantData);
+        // this.tenantData$.next(this._tenantData);
         return of(true);
       } else {
         // console.log('actual request');
@@ -166,7 +179,7 @@ export class SharedTenantResolverService {
         // user belongs from the same domain
         this._tenantData = localDataJSON;
         this.updateTheme();
-        this.tenantData$.next(this._tenantData);
+        // this.tenantData$.next(this._tenantData);
         return of(true);
       } else {
         //  user logged in to different domain, update the theme to user specific domain
@@ -199,10 +212,12 @@ export class SharedTenantResolverService {
     }
   }
 
-  private reloadInfo() {
+  private reloadInfo(sendObservable: boolean = false): any {
     this._tenantData = this.cookieSrvc.getCookie('theming') ? JSON.parse(this.cookieSrvc.getCookie('theming')) : null;
+    if (sendObservable) {
+      return of(this.updateTheme(sendObservable));
+      // this.tenantData$.next(this._tenantData);
+    }
     this.updateTheme();
-    this.tenantData$.next(this._tenantData);
   }
-
 }

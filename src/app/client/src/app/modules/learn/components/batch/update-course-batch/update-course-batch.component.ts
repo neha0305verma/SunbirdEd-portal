@@ -131,6 +131,7 @@ export class UpdateCourseBatchComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe)
       )
       .subscribe((data) => {
+        console.log(data);
         this.showUpdateModal = true;
         if (data.courseDetails.createdBy === this.userService.userid) {
           this.courseCreator = true;
@@ -167,6 +168,7 @@ export class UpdateCourseBatchComponent implements OnInit, OnDestroy {
     this.batchUpdateForm = new FormGroup({
       name: new FormControl(this.batchDetails.name, [Validators.required]),
       description: new FormControl(this.batchDetails.description),
+      batchInfo: new FormControl(this.batchDetails.batchInfo),
       enrollmentType: new FormControl(this.batchDetails.enrollmentType, [Validators.required]),
       startDate: new FormControl(new Date(this.batchDetails.startDate), [Validators.required]),
       endDate: new FormControl(endDate),
@@ -197,6 +199,7 @@ export class UpdateCourseBatchComponent implements OnInit, OnDestroy {
       };
       this.courseBatchService.getUserList(request).pipe(takeUntil(this.unsubscribe))
         .subscribe((res) => {
+          console.log(res);
           this.processParticipantDetails(res);
           const userList = this.sortUsers(res);
           this.participantList = userList.participantList;
@@ -330,12 +333,13 @@ export class UpdateCourseBatchComponent implements OnInit, OnDestroy {
       id: this.batchId,
       name: this.batchUpdateForm.value.name,
       description: this.batchUpdateForm.value.description,
+      batchInfo: this.batchUpdateForm.value.batchInfo,
       enrollmentType: this.batchUpdateForm.value.enrollmentType,
       startDate: startDate,
       endDate: endDate || null,
       createdFor: this.userService.userProfile.organisationIds,
       mentors: _.compact(mentors)
-    };
+    }; console.log(requestBody);
     if (this.batchUpdateForm.value.enrollmentType !== 'open') {
       const selected = [];
       _.forEach(this.selectedMentors, (value) => {
@@ -345,6 +349,7 @@ export class UpdateCourseBatchComponent implements OnInit, OnDestroy {
     }
     this.courseBatchService.updateBatch(requestBody).pipe(takeUntil(this.unsubscribe))
       .subscribe((response) => {
+        console.log(response);
         if (participants && participants.length > 0) {
           this.updateParticipantsToBatch(this.batchId, participants);
         } else {

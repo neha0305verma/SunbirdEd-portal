@@ -124,6 +124,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
     }),
       takeUntil(this.unsubscribe))
       .subscribe((data) => {
+        console.log(data);
         if (data.courseDetails.createdBy === this.userService.userid) {
           this.courseCreator = true;
         }
@@ -205,9 +206,12 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
     this.disableSubmitBtn = true;
     let participants = [];
     let mentors = [];
+    console.log(this.createBatchForm);
     if (this.createBatchForm.value.enrollmentType !== 'open') {
-      participants = $('#participants').dropdown('get value') ? $('#participants').dropdown('get value').split(',') : [];
-      mentors = $('#mentors').dropdown('get value') ? $('#mentors').dropdown('get value').split(',') : [];
+      participants = this.createBatchForm.controls.users.value;
+      mentors =  this.createBatchForm.controls.mentors.value;
+      // participants = $('#participants').dropdown('get value') ? $('#participants').dropdown('get value').split(',') : [];
+      // mentors = $('#mentors').dropdown('get value') ? $('#mentors').dropdown('get value').split(',') : [];
     }
     const startDate = moment(this.createBatchForm.value.startDate).format('YYYY-MM-DD');
     const endDate = this.createBatchForm.value.endDate && moment(this.createBatchForm.value.endDate).format('YYYY-MM-DD');
@@ -224,6 +228,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
     };
     this.courseBatchService.createBatch(requestBody).pipe(takeUntil(this.unsubscribe))
       .subscribe((response) => {
+        console.log(response);
         if (participants && participants.length > 0) {
           this.addParticipantToBatch(response.result.batchId, participants);
         } else {

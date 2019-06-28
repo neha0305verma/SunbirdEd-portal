@@ -9,7 +9,6 @@
     background-color: inherit;
     color: inherit;
     font-weight: bolder;
-    // width: 100%;
 }
 
 ::ng-deep span.fancytree-icon {
@@ -40,4 +39,17 @@
 
 ::ng-deep span.fancytree-node.fancytree-folder span.fancytree-title {
     width: 100% !important;
+}
+
+.button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+a {
+    color: #686f7a !important;
+}
+
+.font-color {
+    color: #686f7a;
 }

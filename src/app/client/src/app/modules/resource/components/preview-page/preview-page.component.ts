@@ -107,6 +107,8 @@ export class PreviewPageComponent implements OnInit, OnDestroy {
   public contentDetails = [];
   public nextPlaylistItem: any;
   public prevPlaylistItem: any;
+  userEnrolledBatch;
+
   scroll(el: ElementRef) {
     this.targetEl.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
@@ -129,6 +131,12 @@ export class PreviewPageComponent implements OnInit, OnDestroy {
     this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
   }
   ngOnInit() {
+    if (this.route.snapshot.params.hasOwnProperty('batchId')) {
+      this.userEnrolledBatch = true;
+    } else {
+      this.userEnrolledBatch = false;
+    }
+    console.log(this.route, this.userEnrolledBatch);
     this.getContent();
   }
 
