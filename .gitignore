@@ -11,4 +11,5 @@ mochawesome-report
 /src/app/log
 .DS_Store
 package-lock.json
+src/app/livesession.json
 
