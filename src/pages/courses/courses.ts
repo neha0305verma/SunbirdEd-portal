@@ -362,7 +362,7 @@ export class CoursesPage implements OnInit, AfterViewInit {
     if (pageAssembleCriteria === undefined) {
       const criteria: PageAssembleCriteria = {
         name: PageName.COURSE,
-        filters: {},
+        filters: {channel:'0127053482034872320'},
         source: 'app'
       };
       criteria.mode = 'soft';
@@ -407,7 +407,6 @@ export class CoursesPage implements OnInit, AfterViewInit {
     }
 
     // pageAssembleCriteria.hardRefresh = hardRefresh;
-
     this.pageService.getPageAssemble(pageAssembleCriteria).toPromise()
       .then((res: any) => {
         this.ngZone.run(() => {
@@ -705,6 +704,7 @@ export class CoursesPage implements OnInit, AfterViewInit {
   navigateToViewMoreContentsPage(showEnrolledCourses: boolean, searchQuery?: any, headerTitle?: string) {
     let params;
     let title;
+    debugger;
     if (showEnrolledCourses) {
       title = this.commonUtilService.translateMessage('COURSES_IN_PROGRESS');
       params = {

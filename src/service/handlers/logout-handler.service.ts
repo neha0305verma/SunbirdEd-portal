@@ -34,39 +34,71 @@ export class LogoutHandlerService {
   ) {
   }
 
+  // public onLogout() {
+  //   if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
+  //     this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
+  //   } else {
+  //     this.generateLogoutInteractTelemetry(InteractType.TOUCH,
+  //       InteractSubtype.LOGOUT_INITIATE, '');
+
+  //     this.authService.getSession()
+  //       .mergeMap(() => {
+  //         return this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN)
+  //           .do((guest_user_id: string) => {
+  //             if (!guest_user_id) {
+  //               this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise().then();
+  //             }
+  //           })
+  //           .mergeMap((guest_user_id: string) => {
+  //             return this.profileService.setActiveSessionForProfile(guest_user_id).toPromise()
+  //               .then(() => {
+  //                 this.events.publish(AppGlobalService.USER_INFO_UPDATED);
+  //                 this.navigateToAptPage();
+  //               }).catch((e) => {
+  //                 console.log(e);
+  //               });
+  //           });
+  //       })
+  //       .mergeMap(() =>
+  //         Observable.defer(() => Observable.of((<any>window).splashscreen.clearPrefs()))
+  //       )
+  //       .mergeMap(() =>
+  //         this.authService.resignSession()
+  //       )
+  //       .subscribe();
+  //   }
+  // }
+
   public onLogout() {
     if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
-      this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
-    } else {
-      this.generateLogoutInteractTelemetry(InteractType.TOUCH,
-        InteractSubtype.LOGOUT_INITIATE, '');
-
-      this.authService.getSession()
-        .mergeMap(() => {
-          return this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN)
-            .do((guest_user_id: string) => {
-              if (!guest_user_id) {
-                this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise().then();
-              }
-            })
-            .mergeMap((guest_user_id: string) => {
-              return this.profileService.setActiveSessionForProfile(guest_user_id).toPromise()
-                .then(() => {
-                  this.events.publish(AppGlobalService.USER_INFO_UPDATED);
-                  this.navigateToAptPage();
-                }).catch((e) => {
-                  console.log(e);
-                });
-            });
-        })
-        .mergeMap(() =>
-          Observable.defer(() => Observable.of((<any>window).splashscreen.clearPrefs()))
-        )
-        .mergeMap(() =>
-          this.authService.resignSession()
-        )
-        .subscribe();
+      return this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
     }
+ 
+    this.generateLogoutInteractTelemetry(InteractType.TOUCH,
+      InteractSubtype.LOGOUT_INITIATE, '');
+ 
+ 
+    this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN)
+      .do(async (guest_user_id: string) => {
+        if (!guest_user_id) {
+          await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise();
+        }
+      })
+      .mergeMap((guest_user_id: string) => this.profileService.setActiveSessionForProfile(guest_user_id)
+      .toPromise()
+      .then(async () => {
+        await this.navigateToAptPage();
+        this.events.publish(AppGlobalService.USER_INFO_UPDATED);
+      }).catch((e) => {
+        console.log(e);
+      }))
+      .mergeMap(() => Observable.defer(() => Observable.of((<any>window).splashscreen.clearPrefs())))
+      .mergeMap(() => this.authService.resignSession())
+      .do(async () => {
+        await this.navigateToAptPage();
+        this.events.publish(AppGlobalService.USER_INFO_UPDATED);
+      })
+      .subscribe();
   }
 
   private navigateToAptPage() {
